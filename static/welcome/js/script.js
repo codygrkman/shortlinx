@@ -69,5 +69,5 @@ function transitionToFlowPane2() {
 
 /* Redirect functions */
 function redirectToLink() {
-    location.href = "http://www.shortlinx.herokuapp.com/testlink";
+    window.location = "http://shortlinx.herokuapp.com/testlink";
 }
