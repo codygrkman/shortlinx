@@ -1,0 +1,39 @@
+{% extends "base/base.html" %}
+{% block title %}Bumper{% endblock %}
+{% block body %}
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='welcome/css/welcome.css') }}">
+<script src="https://kit.fontawesome.com/9ee89a632a.js" crossorigin="anonymous"></script>
+
+
+<div class="welcome-container">
+
+  <div class="animation-container">
+    <img style="width: 55%;" src="{{ url_for('static', filename='welcome/img/bumper-transparent.png') }}">
+  </div>
+
+  <div class="login-container">
+    Log in with
+
+    <div class="login-options">
+
+      <div class="login-option google-background">
+        <i class="fab fa-google"></i>
+      </div>
+
+      <div class="login-option facebook-background">
+        <i class="fab fa-facebook"></i>
+      </div>
+
+      <div class="login-option github-background">
+        <i class="fab fa-github"></i>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}
+
