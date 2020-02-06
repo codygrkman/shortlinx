@@ -9,3 +9,7 @@ app.config['SECRET_KEY'] = 'shortlinx'
 @app.route('/')
 def init():
     return render_template('welcome/welcome.html')
+
+@app.route('/testlink')
+def testlink():
+    return redirect("http://www.google.com")

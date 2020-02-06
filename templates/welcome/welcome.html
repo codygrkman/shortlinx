@@ -4,36 +4,47 @@
 
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='welcome/css/welcome.css') }}">
 <script src="https://kit.fontawesome.com/9ee89a632a.js" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css?family=Quicksand:300,500" rel="stylesheet">
 
+<div class="wrapper fadeInDown">
 
-<div class="welcome-container">
+    <div class="fadeIn first">
+      
+      <div class="content-pane">
 
-  <div class="animation-container">
-    <img style="width: 55%;" src="{{ url_for('static', filename='welcome/img/bumper-transparent.png') }}">
-  </div>
+        <div class="title-top"><span style="color: #FABB2E">Short</span><span style="color: #61C0AB">Linx</span><span class="subtitle-top"> by Cody Grkman</span></div>
 
-  <div class="login-container">
-    Log in with
+        <div id="progress" class="progress stage-0"><span id="progress-text" class="progress-text">Enter your URL</span></div>
 
-    <div class="login-options">
+        <div class="flow-layout">
 
-      <div class="login-option google-background">
-        <i class="fab fa-google"></i>
-      </div>
+          <div id="flow-pane-0" class="flow-pane show">
+            <form>
+              <input type="text" class="short" placeholder="Enter the URL you want to shorten" id="url"></input><br>
+            </form>
+            <div id="flow-pane-0-continue" class="button">Continue</div>
+          </div>
 
-      <div class="login-option facebook-background">
-        <i class="fab fa-facebook"></i>
-      </div>
+          <div id="flow-pane-1" class="flow-pane hidden">
+            <form>
+              <input type="text" id="short-string" value="shortlinx.herokuapp.com/"></input><br>
+            </form>
+            <div id="flow-pane-1-continue" class="button">Continue</div>
+          </div>
 
-      <div class="login-option github-background">
-        <i class="fab fa-github"></i>
+          <div id="flow-pane-2" class="flow-pane hidden">
+            All set! Here is your shortened URL!<br>
+            <div onclick="redirectToLink()" class="result-link">www.shortlinx.herokuapp.com/testlink</div>
+          </div>
+
+        </div>
       </div>
 
     </div>
 
-  </div>
-
 </div>
+
+<script type="text/javascript" src="{{url_for('static', filename='welcome/js/script.js')}}"></script>
 
 {% endblock %}
 
