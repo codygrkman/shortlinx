@@ -85,6 +85,19 @@ h2 {
     text-align: center;
 }
 
+.bottom-panel {
+  width: 100%-12px;
+  margin-left: 12px;
+  text-align: left;
+  font-size: 11px;
+
+}
+
+.bottom-panel span {
+  cursor: pointer;
+  text-decoration:underline;
+}
+
 /* Flow panes */
 .flow-pane {
     width: 45vw;
@@ -110,10 +123,10 @@ input[type="text"] {
     height: 50px;
     background-color: white;
     font-size: 20px;
-    border: none;
     outline: none;
     padding: 10px;
     margin: 10px;
+    transition: .35s linear;
 }
 
 .button {
@@ -125,6 +138,49 @@ input[type="text"] {
     color: white;
     cursor: pointer;
     padding: 10px;
+}
+
+.not-validating {
+  border: none;
+}
+
+.validating {
+  border: 2px solid orange;
+  animation: validation-glow 1500ms infinite;
+}
+
+#continue-validating {
+  display: none;
+  animation: validation-spin 1500ms infinite;
+}
+
+@keyframes validation-glow {
+  0% {
+    border: 5px solid #61C0AB;
+  }
+  50% {
+    border: 5px solid #FABB2E;
+  }
+  100% {
+    border: 5px solid #61C0AB;
+  }
+}
+
+@keyframes validation-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.validated-success {
+  border: 5px solid green;
+}
+
+.validated-failed {
+  border: 5px solid red;
 }
 
 /* Other */

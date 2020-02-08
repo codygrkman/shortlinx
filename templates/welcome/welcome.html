@@ -20,14 +20,14 @@
 
           <div id="flow-pane-0" class="flow-pane show">
             <form>
-              <input type="text" class="short" placeholder="Enter the URL you want to shorten" id="url"></input><br>
+              <input type="text" class="not-validating" placeholder="Enter the URL you want to shorten" id="url"></input><br>
             </form>
             <div id="flow-pane-0-continue" class="button">Continue</div>
           </div>
 
           <div id="flow-pane-1" class="flow-pane hidden">
             <form>
-              <input type="text" id="short-string" value="shortlinx.herokuapp.com/"></input><br>
+              <input type="text" class="not-validating" id="short-string" value="shortlinx.herokuapp.com/"></input><br>
             </form>
             <div id="flow-pane-1-continue" class="button">Continue</div>
           </div>
@@ -35,6 +35,10 @@
           <div id="flow-pane-2" class="flow-pane hidden">
             All set! Here is your shortened URL!<br>
             <div onclick="redirectToLink()" class="result-link">www.shortlinx.herokuapp.com/testlink</div>
+          </div>
+
+          <div class="bottom-panel">
+            <span onclick="refresh()">Start Over</span></span> &emsp; <span onclick="privacyPolicy()">Privacy Policy</span> &emsp; <span onclick="about()">About</span>
           </div>
 
         </div>
