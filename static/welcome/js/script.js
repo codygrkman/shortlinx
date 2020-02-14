@@ -8,6 +8,9 @@ var url;
 var shortString;
 var flowPane0Cont;
 var flowPane1Cont;
+var backgroundUrl;
+var redirectLink;
+var error;
 
 window.addEventListener('load', function() {
     progressBar = document.getElementById('progress');
@@ -17,6 +20,8 @@ window.addEventListener('load', function() {
     flowPane1 = document.getElementById('flow-pane-1');
     flowPane2 = document.getElementById('flow-pane-2');
 
+    redirectLink = document.getElementById('redirectLink');
+
     url = document.getElementById('url');
     shortString = document.getElementById('short-string');
 
@@ -25,23 +30,43 @@ window.addEventListener('load', function() {
 
     flowPane0Cont.addEventListener('click', flow_pane_0_continue, false);
     flowPane1Cont.addEventListener('click', flow_pane_1_continue, false);
+
+    error = document.getElementById('error');
+
+    url.addEventListener('keypress', function(e) {
+        if(e.which == 13) {
+            e.preventDefault();
+            flow_pane_0_continue();
+            return false;
+        }
+    }, false);
+    shortString.addEventListener('keypress', function(e) {
+        if(e.which == 13) {
+            e.preventDefault();
+            flow_pane_1_continue();
+            return false;
+        }
+    }, false);
 });
 
 /* Handle flow pane control */
 function flow_pane_0_continue() {
     url_validation();
+    return false;
 }
 
 function flow_pane_1_continue() {
     shortString_validation();
+    return false;
 }
 
 /* Transition functions */
 function refresh() {
-    resetFlowPane0_Reset();
-    resetFlowPane1_Reset();
-    resetFlowPane2_Reset();
-    transitionToFlowPane0();
+    transitionToFlowPane0(0);
+}
+
+function about() {
+    location.href = "/aboutcody";
 }
 
 function transitionToFlowPane0() {
@@ -49,6 +74,8 @@ function transitionToFlowPane0() {
 
     progressBar.className = "progress stage-0";
     progressText.innerText = "Enter your URL";
+
+    error.style.display = "none";
 
     url.value = null;
     url.className = "";
@@ -67,7 +94,12 @@ function transitionToFlowPane1() {
     validating = false;
 
     progressBar.className = "progress stage-1";
-    progressText.innerText = "Setup your ShortLinx";
+    progressText.innerText = "Enter an easy-to-remember extension";
+
+    error.style.display = "none";
+
+    shortString.value = null;
+    shortString.className = "";
 
     flowPane0Cont.innerText = "Continue";
     flowPane1Cont.innerText = "Continue";
@@ -77,10 +109,14 @@ function transitionToFlowPane1() {
     flowPane2.className = "flow-pane hidden";
 
     flowPane1.className = "flow-pane show";
+
+    shortString.focus();
 }
 
 function transitionToFlowPane2() {
     validating = false;
+
+    redirectLink.innerText = "127.0.0.1:5000/" + shortString.value;
 
     progressBar.className = "progress stage-2";
     progressText.innerText = "All done! Check out your ShortLinx!";
@@ -92,47 +128,10 @@ function transitionToFlowPane2() {
     flowPane2.className = "flow-pane show";
 }
 
-var resetCount=3;
-function resetFlowPane0() {
-    url.style.color = "red";
-    flowPane0Cont.innerText = "Invalid URL. Resetting in " + resetCount;
-    setTimeout(function() {
-        if (resetCount > 0) {
-            resetCount--;
-            resetFlowPane0();
-        } else {
-            resetCount = 3;
-            resetFlowPane0_Reset();
-        }
-    }, 1000);
-}
-
-function resetFlowPane0_Reset() {
-    url.style.color = "";
-    url.value = null;
-    url.className = "";
-    flowPane0Cont.innerText = "Continue";
-}
-
-function resetFlowPane1() {
-    //todo
-}
-
-function resetFlowPane1_Reset() {
-    shortString.style.color = "";
-    shortString.value = null;
-    shortString.className = "";
-    flowPane1Cont.innerText = "Continue";
-}
-
-function resetFlowPanel2_Reset() {
-    //todo
-}
-
 
 /* Redirect functions */
 function redirectToLink() {
-    window.location = "http://shortlinx.herokuapp.com/testlink";
+    window.location = shortString.value;
 }
 
 /* Validation */
@@ -153,42 +152,38 @@ function fixUrlFormat(x) {
     if (x.substring(0,7) != "http://" && x.substring(0,8) != "https://") {
         x = "https://" + x;
     }
-    x = encodeURI(x);
-
+    backgroundUrl = x;
     return x;
 }
 
 function handleUrlResponse(response) {
     if (response.status != 200) {
-        validation_failed(url);
-        resetFlowPane0();
+        console.log(response);
+        validation_failed(url, "Sorry! That URL isn't valid. Try another.");
     } else {
         validation_success(url);
         transitionToFlowPane1();
     }
 }
 
-function shortString_validation(event) {
+function shortString_validation() {
     validating = true;
     validating_startAnimation(shortString);
-    ss_ReqCheck(shortString.value);
+    ss_reqCheck(shortString.value);
 }
 
-function ss_ReqCheck(x) {
+function ss_reqCheck(x) {
     x = fixSsFormat(x);
-    makeRec('PUT', '/setupredirect?url='+url.value+'&ss='+x, handleSsResponse);
+    makeRec('POST', '/setupredirect?url='+backgroundUrl+'&ss='+x, handleSsResponse);
 }
 
 function fixSsFormat(x) {
-    console.log("Need to fix " + x + " to be whatever");
-    return "toaster";
+    return encodeURIComponent(x);
 }
 
 function handleSsResponse(response) {
-    console.log(response);
     if (response.status != 200) {
-        validation_failed(shortString);
-        resetFlowPane1();
+        validation_failed(shortString, "Sorry! That extension is taken. Try another.");
     } else {
         validation_success(shortString);
         transitionToFlowPane2();
@@ -211,13 +206,26 @@ function startElipses(x) {
             if (x>2) x=1;
             else x++;
             startElipses(x);
+        } else {
+            flowPane0Cont.innerText = "Continue";
+            flowPane1Cont.innerText = "Continue";
         }
     },500);
 }
 
-function validation_failed(x) {
+function validation_failed(x, errText) {
     validating = false;
     x.className = "validated-failed";
+    x.style.color = "red";
+    error.innerText = "Error: " + errText;
+    error.style.display = "inline";
+    setTimeout(function() {
+        x.className = "not-validating";
+        x.style.color = "";
+    }, 750);
+    setTimeout(function() {
+        error.style.display = "none";
+    },3500);
 }
 
 function validation_success(x) {

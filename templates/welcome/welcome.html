@@ -1,16 +1,19 @@
 {% extends "base/base.html" %}
-{% block title %}Bumper{% endblock %}
+{% block title %}ShortLinx | URL Shortener{% endblock %}
 {% block body %}
 
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='welcome/css/welcome.css') }}">
 <script src="https://kit.fontawesome.com/9ee89a632a.js" crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/css?family=Quicksand:300,500" rel="stylesheet">
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
 <div class="wrapper fadeInDown">
 
     <div class="fadeIn first">
       
       <div class="content-pane">
+
+        <div class="error" id="error">Test error</div>
 
         <div class="title-top"><span style="color: #FABB2E">Short</span><span style="color: #61C0AB">Linx</span><span class="subtitle-top"> by Cody Grkman</span></div>
 
@@ -20,25 +23,25 @@
 
           <div id="flow-pane-0" class="flow-pane show">
             <form>
-              <input type="text" class="not-validating" placeholder="Enter the URL you want to shorten" id="url"></input><br>
+              <input autofocus="autofocus" select type="text" class="not-validating" id="url"></input><br>
             </form>
             <div id="flow-pane-0-continue" class="button">Continue</div>
           </div>
 
           <div id="flow-pane-1" class="flow-pane hidden">
             <form>
-              <input type="text" class="not-validating" id="short-string" value="shortlinx.herokuapp.com/"></input><br>
+              <input type="text" class="not-validating" id="short-string"></input><br>
             </form>
             <div id="flow-pane-1-continue" class="button">Continue</div>
           </div>
 
           <div id="flow-pane-2" class="flow-pane hidden">
             All set! Here is your shortened URL!<br>
-            <div onclick="redirectToLink()" class="result-link">www.shortlinx.herokuapp.com/testlink</div>
+            <div onclick="redirectToLink()" class="result-link" id="redirectLink"></div>
           </div>
 
           <div class="bottom-panel">
-            <span onclick="refresh()">Start Over</span></span> &emsp; <span onclick="privacyPolicy()">Privacy Policy</span> &emsp; <span onclick="about()">About</span>
+            <span onclick="refresh()">Start Over</span></span> &emsp; <span onclick="about()">About</span>
           </div>
 
         </div>

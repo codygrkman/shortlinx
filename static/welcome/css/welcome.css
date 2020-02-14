@@ -16,7 +16,24 @@ h2 {
     color: #cccccc;
 }
 
+.error {
+  position: absolute;
+  top: -7vw;
+  width: 45vw;
+  height: 5vw;
+  margin-bottom: 10px;
+  background-color: rgba(255,255,255,.7);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  font-family: 'Quicksand', sans-serif;
+  font-size: 18px;
+  text-align: center;
+  line-height: 5vw;
+  display: none;
+}
+
 .content-pane {
+    position: relative;
     width: 45vw;
     height: 30vw;
     background-color: rgba(255,255,255,.7);
@@ -181,6 +198,22 @@ input[type="text"] {
 
 .validated-failed {
   border: 5px solid red;
+  animation: validation-shake 150ms infinite;
+}
+
+@keyframes validation-shake {
+  0% {
+    margin-left: 10px;
+  }
+  25% {
+    margin-left: 0px;
+  }
+  50% {
+    margin-right: 10px;
+  }
+  100% {
+    margin-right: 0px;
+  }
 }
 
 /* Other */
