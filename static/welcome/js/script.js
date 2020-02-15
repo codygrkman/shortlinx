@@ -116,7 +116,7 @@ function transitionToFlowPane1() {
 function transitionToFlowPane2() {
     validating = false;
 
-    redirectLink.innerText = "127.0.0.1:5000/" + shortString.value;
+    redirectLink.innerText = "http://shortlinx.herokuapp.com/" + shortString.value;
 
     progressBar.className = "progress stage-2";
     progressText.innerText = "All done! Check out your ShortLinx!";
