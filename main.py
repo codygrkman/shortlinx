@@ -8,7 +8,7 @@ app = Flask(__name__)
 api = Api(app)
 
 # Setup Mongo
-app.config["MONGO_URI"] = "mongodb://localhost:27017/shortlinx"
+app.config["MONGO_URI"] = os.environ['MONGOLAB_URI']
 mongo = PyMongo(app)
 redirections = mongo.db.redirects
 
