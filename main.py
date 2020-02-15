@@ -8,7 +8,7 @@ app = Flask(__name__)
 api = Api(app)
 
 # Setup Mongo
-app.config["MONGO_URI"] = os.environ['MONGODB_URI']
+app.config["MONGO_URI"] = os.environ['MONGODB_URI'] + "?retryWrites=false"
 mongo = PyMongo(app)
 redirections = mongo.db.redirects
 
